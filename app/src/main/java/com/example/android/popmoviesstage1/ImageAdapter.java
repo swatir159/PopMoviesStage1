@@ -2,22 +2,18 @@ package com.example.android.popmoviesstage1;
 
 //import android.view.Display;
 import android.view.LayoutInflater;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 //import android.widget.GridView;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 //import android.widget.ProgressBar;
 
 //import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
-
-import org.json.JSONObject;
+import com.bumptech.glide.Glide;
+import com.example.android.popmoviesstage1.Model.Film;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,41 +25,46 @@ import java.util.List;
 public class ImageAdapter extends BaseAdapter {
 
     private Context mContext;
-    private List<Film> mFilms;
+    private List<Film> mFilmsList;
+
+
+
+
     //private ProgressBar progress;
     private static String mBaseURLToFetchImage = "http://image.tmdb.org/t/p/";
-    private static String mImageSize = "original";   /* \"w92\", \"w154\", \"w185\", \"w342\", \"w500\", \"w780\", or \"original\" */
+    private static String mImageSizeToDownload = "original";   /* \"w92\", \"w154\", \"w185\", \"w342\", \"w500\", \"w780\", or \"original\" */
+    private int mImageSizeSpacing;
+    private int mImageSize;
 
-    public ImageAdapter(Context c, List<Film> filmsArray) {
+    public ImageAdapter(Context c, List<Film> FilmListParam) {
         mContext = c;
-        mFilms = filmsArray;
+        mFilmsList = FilmListParam;
+        mImageSizeSpacing = mImageSize =0;
     }
 
     public ImageAdapter(Context c) {
         mContext = c;
-        mFilms = null;
+        mFilmsList = null;
+        mImageSizeSpacing = mImageSize =0;
     }
 
     public List<Film> getFilms() {
-        return mFilms;
+        return mFilmsList;
     }
 
-    public void setFilms(List<Film> filmsArray) {
+    public void setFilms(List<Film> FilmListParam) {
 
-        if ( mFilms != null  )
-        {
-            mFilms.clear();
-            mFilms = null;
+        if (mFilmsList != null) {
+            mFilmsList.clear();
+            mFilmsList = null;
         }
-
-
-        int dataSize = filmsArray.size();
+        int dataSize = FilmListParam.size();
 
         if (dataSize != 0) {
-            mFilms = new ArrayList<Film>(dataSize);
+            mFilmsList = new ArrayList<Film>(dataSize);
 
             for (int i = 0; i < dataSize; i++) {
-                mFilms.add((Film) filmsArray.get(i));
+                mFilmsList.add( FilmListParam.get(i));
             }
         }
     }
@@ -71,14 +72,14 @@ public class ImageAdapter extends BaseAdapter {
 
 
     public int getCount() {
-        if (mFilms == null) {
+        if (mFilmsList == null) {
             return 0;
         }
-        return mFilms.size();
+        return mFilmsList.size();
     }
 
     public Object getItem(int position) {
-        return mFilms.get(position);
+        return mFilmsList.get(position);
     }
 
     public long getItemId(int position) {
@@ -109,22 +110,23 @@ public class ImageAdapter extends BaseAdapter {
             viewHolder.movieThumbnail = (ImageView) convertView.findViewById(R.id.ivIcon);
 
 
-            RelativeLayout.LayoutParams vp;
+            //RelativeLayout.LayoutParams vp;
            // vp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
            // viewHolder.movieThumbnail.setLayoutParams(vp);
-            viewHolder.movieThumbnail.setLayoutParams(new RelativeLayout.LayoutParams(85, 85));
+
+            viewHolder.movieThumbnail.setLayoutParams(new RelativeLayout.LayoutParams(mImageSize, mImageSize));
             viewHolder.movieThumbnail.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            viewHolder.movieThumbnail.setPadding(8, 8, 8, 8);
+            viewHolder.movieThumbnail.setPadding(mImageSizeSpacing, mImageSizeSpacing, mImageSizeSpacing, mImageSizeSpacing);
             convertView.setTag(viewHolder);
         } else {
             // recycle the already inflated view
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Film film = mFilms.get(position);
+        Film film = mFilmsList.get(position);
         //imageView.setImageResource(mThumbIds[position]);
-        Picasso.with(mContext)
-                .load( mBaseURLToFetchImage + mImageSize + film.getPosterPath())
+        Glide.with(mContext)
+                .load( mBaseURLToFetchImage + mImageSizeToDownload + film.getPosterPath())
                         .placeholder(R.drawable.place_holder)
                 .error(R.drawable.big_problem)
                 .into(viewHolder.movieThumbnail);
@@ -141,8 +143,21 @@ public class ImageAdapter extends BaseAdapter {
      */
     private static class ViewHolder {
         ImageView movieThumbnail;
-
     }
 
+    public int getmImageSize() {
+        return mImageSize;
+    }
 
+    public void setImageSize(int ImageSize) {
+        this.mImageSize = ImageSize;
+    }
+
+    public void setImageSizeSpacing(int ImageSize) {
+        this.mImageSizeSpacing = ImageSize;}
+
+    public void setImageSizeDetails(int ImageSize, int imageSizeSpacing) {
+        this.mImageSize = ImageSize;
+        this.mImageSizeSpacing = imageSizeSpacing;
+    }
 }

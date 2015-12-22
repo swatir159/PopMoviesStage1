@@ -11,50 +11,71 @@
         android:text="New Text"
         android:id="@+id/MovieTitle"
         android:layout_gravity="center_horizontal"
-        android:backgroundTint="@color/material_deep_teal_200"
-        android:layout_marginTop="8dp" />
+        android:background="@color/material_deep_teal_200"
+        android:layout_marginTop="8dp"
+        android:typeface="normal"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:gravity="center_vertical|center_horizontal"
+        android:textSize="@dimen/abc_text_size_headline_material" />
+
+    <RatingBar
+        style="@android:attr/ratingBarStyleSmall"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/MovieTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleX=".5"
+        android:scaleY=".5"
+        android:transformPivotX="0dp"
+        android:transformPivotY="0dp"
+        android:isIndicator="true"
+        android:id="@+id/UserRating"
+        android:numStars="10"
+        android:stepSize="0.1"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="5dp" />
 
     <ImageView android:id="@+id/MovieDetailView"
-        android:layout_width="209dp"
-        android:layout_height="107dp"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="left"
-        android:layout_above="@+id/UserRating"
+        android:layout_below="@+id/UserRating"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <TextView
-        android:layout_width="100dp"
-        android:layout_height="20dp"
-        android:text="New Text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Release Date:"
         android:id="@+id/ReleaseDate"
         android:layout_gravity="right"
-        android:layout_alignTop="@+id/MovieDetailView"
-        android:layout_alignParentRight="true" />
-
-    <RatingBar
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/UserRating"
-        android:layout_weight="1"
-        android:numStars="10"
-        android:stepSize="0.1"
-        android:maxWidth="50dp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentRight="true" />"/>
-
-
-
+        android:layout_below="@+id/MovieDetailView"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_centerInParent="true"
+        android:contextClickable="false"
+        android:gravity="center_vertical|center_horizontal"
+        android:textAlignment="center"
+        android:textStyle="italic" />
 
     <TextView
-        android:layout_width="291dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="New Text"
         android:id="@+id/OverView"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.24"
-        android:layout_below="@+id/UserRating"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp" />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_below="@+id/ReleaseDate"
+        android:scrollIndicators="right" />
 
 
 </RelativeLayout>

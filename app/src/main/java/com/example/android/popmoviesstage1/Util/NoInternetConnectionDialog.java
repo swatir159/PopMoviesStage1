@@ -1,4 +1,4 @@
-package com.example.android.popmoviesstage1;
+package com.example.android.popmoviesstage1.Util;
 
 import android.support.v4.app.DialogFragment;
 import android.app.Dialog;
@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.content.DialogInterface;
+
+import com.example.android.popmoviesstage1.R;
 
 
 /**

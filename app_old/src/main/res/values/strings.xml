@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Popular Movies(Stage:1 b4)</string>
+    <string name="action_settings">Settings</string>
+    <string name="no_internet_title">Connectivity problem</string>
+    <string name="no_internet_message">No internet connection available please turn on your network services</string>
+    <string name="logcat_tag">PopMovies1</string>
+    <string name="no_internet_negative_btn">EXIT</string>
+    <string name="no_internet_positive_btn">OKAY</string>
+</resources>
