@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Popular Movies(Stage:1 b1)</string>
+    <string name="app_name">Popular Movies(Stage:1 b2)</string>
     <string name="action_settings">Settings</string>
     <string name="InstanceTag1">Films</string>
     <string name="InstanceTag2">selectedfilm</string>
@@ -28,6 +28,7 @@
     <string name="Message7">Error connecting to server</string>
     <string name="Message8">Loading...</string>
     <string name="Message9">Movie info retrieval cancelled</string>
-    <string name="Message10"></string>
+    <string name="Message10">AsyncTask does not exist</string>
+    <string name="Message11"></string>
 
 </resources>

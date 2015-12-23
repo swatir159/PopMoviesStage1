@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityFragm
         // If the Fragment is non-null, then it is currently being
         // retained across a configuration change.
         if (mTaskFragment == null) {
+            Log.d(getResources().getString(R.string.logcat_tag), "No Task fragmnet exists - Creating new Task fragment");
             mTaskFragment = new MainActivityFragment();
              fm.beginTransaction().add( mTaskFragment, TAG_TASK_FRAGMENT).commit();
         }

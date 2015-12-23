@@ -40,6 +40,8 @@ import com.example.android.popmoviesstage1.WebDataFetcher.MovieDBConnector;
  * cache is retained over configuration changes like orientation change so the images are populated
  * quickly if, for example, the user rotates the device.
  * Modeled after example in android.developer.com
+ *
+ * http://www.androiddesignpatterns.com/2013/04/retaining-objects-across-config-changes.html
  */
 public class MainActivityFragment extends Fragment {
 
@@ -57,18 +59,25 @@ public class MainActivityFragment extends Fragment {
     public TaskCallbacks getCallbacks() {
         return mCallbacks;
     }
-
     private TaskCallbacks mCallbacks;
 
     private ImageAdapter mAdapter;
     private ArrayList<Film> mFilmsList;
     private String mOptionChosen;
+    private String mLastOption;
+    // To check if the current chosen option is same as the last one - if yes we need to cancel the running asynctask
     private AsyncDownloader mDownloader;
     private int  mImageSize;
     private int  mImageSpacing;
     //private boolean isTaskRunning = false;
 
     public MainActivityFragment() {
+        //mAdapter = null;
+        //mFilmsList = null;
+        mLastOption = "";
+        //mImageSize = 100;
+        //mImageSpacing = 5;
+
     }
 
     /**
@@ -107,7 +116,7 @@ public class MainActivityFragment extends Fragment {
             if (mOptionChosen == null || mOptionChosen.trim().isEmpty()  ) {
                 mOptionChosen = this.getActivity().getResources().getString(R.string.OptionMenu1);
             }
-            Log.d(getResources().getString(R.string.logcat_tag), getResources().getString(R.string.Message2));
+            Log.d(getResources().getString(R.string.logcat_tag), getResources().getString(R.string.Message2) + "instance: " + this.toString());
             createMovieList();
         }
         else {
@@ -129,12 +138,8 @@ public class MainActivityFragment extends Fragment {
 
         View rootView;
         rootView = inflater.inflate(R.layout.fragment_main, container, false);
-
-
         setImageParams();
-
         GridView gridview = (GridView) rootView.findViewById(R.id.pomoviepostergridview);
-
         mAdapter = new ImageAdapter( (Context)this.getActivity(), mFilmsList);
         gridview.setAdapter(mAdapter);
         mAdapter.setImageSizeDetails(mImageSize, mImageSpacing);
@@ -174,13 +179,21 @@ public class MainActivityFragment extends Fragment {
             default:
                 break;
         }
+
         switch (item.getItemId()) {
             case R.id.item1:
             case R.id.item2:
             case R.id.item3:
             case R.id.item4:
-
-                createMovieList();
+                if ( !mLastOption.equals(mOptionChosen)){
+                    mLastOption = mOptionChosen;
+                    cancelAsynctaskIfExists();
+                    createMovieList();
+                }
+                else
+                {
+                    // same option chosen again - no action
+                }
 
             default:
                 break;
@@ -269,20 +282,6 @@ public class MainActivityFragment extends Fragment {
         url.setmAPIKey(getResources().getString(R.string.themovieDB_api_key));
         String getMoviesHttpMethod = url.getMoviesQuery(mOptionChosen);
 
-        if (mDownloader != null ) {
-            if( mDownloader.getStatus().equals(AsyncDownloader.Status.RUNNING) || mDownloader.getStatus().equals(AsyncDownloader.Status.PENDING) ){
-
-                if(  !mDownloader.isCancelled()) {
-                    mDownloader.cancel(true);
-                }
-
-            } else if ( mDownloader.getStatus().equals(AsyncDownloader.Status.FINISHED)  ){
-
-            }
-
-
-        }
-
         mDownloader = new AsyncDownloader((Context)this.getActivity(), this );
         mDownloader.execute(getMoviesHttpMethod);
     }
@@ -328,4 +327,22 @@ public class MainActivityFragment extends Fragment {
 
     }
 
+    private void cancelAsynctaskIfExists(){
+        if (mDownloader != null ) {
+            if( mDownloader.getStatus().equals(AsyncDownloader.Status.RUNNING) || mDownloader.getStatus().equals(AsyncDownloader.Status.PENDING) ){
+
+                if(  !mDownloader.isCancelled()) {
+                    mDownloader.cancel(true);
+                }
+
+            } else if ( mDownloader.getStatus().equals(AsyncDownloader.Status.FINISHED)  ){
+
+            }
+
+
+        } else {
+            Log.d(getResources().getString(R.string.logcat_tag), getResources().getString(R.string.Message10));
+        }
+
+    }
 }

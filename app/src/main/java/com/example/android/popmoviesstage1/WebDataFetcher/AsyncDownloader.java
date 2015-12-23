@@ -54,6 +54,7 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
     private ProgressDialog mDialog;
 
     private String mURL;
+    //private long mStartTime;
 
     public AsyncDownloader(Context ctx, MainActivityFragment movieFrg ) {
         mContext = ctx;
@@ -86,6 +87,7 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
             });
             mDialog.show();
         }
+        //mStartTime = System.currentTimeMillis();
     }
 
 
@@ -108,8 +110,10 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
     protected String doInBackground(String... params) {
 
         //String url = params[0];
+        //long timeNow;
         setmURL(params[0]);
         Log.d(mContext.getString(R.string.logcat_tag), mContext.getString(R.string.Message5));
+
         OkHttpClient client = new OkHttpClient();
         //client.setConnectTimeout(150, "ms");
         Request request = new Request.Builder()
@@ -122,6 +126,7 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
         String jsonData = null;
 
         try {
+            //timeNow = System.currentTimeMillis();
             if (!isCancelled()) {
                 response = call.execute();
                 if (response.isSuccessful()) {
@@ -135,6 +140,9 @@ public class AsyncDownloader extends AsyncTask<String, Integer, String> {
                 }
 
             }
+
+            //(timeNow - mStartTime < (5 * 60 * 1000));
+
         } catch (IOException e) {
             e.printStackTrace();
         }
